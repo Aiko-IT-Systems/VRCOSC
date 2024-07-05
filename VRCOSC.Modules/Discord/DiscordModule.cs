@@ -13,10 +13,12 @@ namespace VRCOSC.Modules.Discord;
 [ModulePrefab("VRCOSC-Discord", "https://github.com/VolcanicArts/VRCOSC/releases/download/latest/VRCOSC-Discord.unitypackage")]
 public sealed class DiscordModule : IntegrationModule
 {
-    protected override string TargetProcess => "discord";
+    protected override string TargetProcess => GetSetting<string>(DiscordSetting.DiscordClientVersion);
 
     protected override void CreateAttributes()
     {
+        CreateSetting(DiscordSetting.DiscordClientVersion, "Selected Discord Client Version", "Enter the lowercase name of the discord executable (e.g. discordcanary)", "discord");
+
         CreateParameter<bool>(DiscordParameter.Mic, ParameterMode.Read, "VRCOSC/Discord/Mic", "Mic", "Becomes true to toggle the mic");
         CreateParameter<bool>(DiscordParameter.Deafen, ParameterMode.Read, "VRCOSC/Discord/Deafen", "Deafen", "Becomes true to toggle deafen");
 
@@ -33,5 +35,10 @@ public sealed class DiscordModule : IntegrationModule
     {
         Mic,
         Deafen
+    }
+
+    private enum DiscordSetting
+    {
+        DiscordClientVersion
     }
 }
